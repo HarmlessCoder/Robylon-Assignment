@@ -16,6 +16,7 @@ function App() {
   const [selectedMovie, setSelectedMovie] = useState({})
   const [playTrailer, setPlayTrailer] = useState(false)
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
+  const [playing, setPlaying] = useState(false)
 
 
   const fetchMovies = async (searchKey) => {
@@ -55,6 +56,9 @@ function App() {
     const data = await fetchMovie(movie.id)
     console.log('movie data',data);
     setSelectedMovie(data)
+
+    // Scroll to the top of the page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
   }
 
@@ -116,13 +120,22 @@ function App() {
     return (
       <Youtube
         videoId={key}
-        containerClassName={"youtube-container"}
+        className={"youtube amru"}
+        containerClassName={"youtube-container amru"}
         opts={{
           width: "100%",
           height: "100%",
           playerVars: {
             autoplay: 1,
-            controls: 0
+            controls: 0,
+            // playsinline:0,
+            cc_load_policy: 0,
+            fs: 0,
+            iv_load_policy: 0,
+            modestbranding: 0,
+            rel: 0,
+            showinfo: 0,
+            
           }
         }}
       />
@@ -131,36 +144,45 @@ function App() {
 
   return (
     <div className="App">
-     
-      <header className={"header"}>
-        <div className='header-content'>
+      <header className={"center-max-size header"}>
+      <span className={"brand"}>Robylon.ai Movie App</span>
 
-        <h1>Movie App</h1>
-
-        <form onSubmit={searchMovies}>
-          <input type="text" id="searchInput" placeholder="Search for movies..." onChange={(e)=> setSearchKey(e.target.value)}/>
-          <button type="submit">Search</button>
+        <form className="form" onSubmit={searchMovies}>
+          <input className="search" type="text" id="searchInput" placeholder="Search for movies..." onChange={(e)=> setSearchKey(e.target.value)}/>
+          <button className="submit-search" type="submit">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="feather feather-search"
+            >
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg></button>
         </form>
-        </div>
       </header>
 
-      <div className="hero" style={{backgroundImage: `url("${IMAGE_PATH}${selectedMovie.backdrop_path}")`}}>
+      <div className="poster" style={{backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),url("${IMAGE_PATH}${selectedMovie.backdrop_path}")`}}>
         {console.log(selectedMovie)}
-        <div className="hero-content max-center" >
 
-          {playTrailer ?  <button className={"button button-close"} onClick={() => setPlayTrailer(false)}>Close</button> : null}
-            
-          {selectedMovie.videos && playTrailer ? renderTrailer() : null}
-
-
-          <button className={"button"} onClick={() => setPlayTrailer(true)}>Play Trailer</button>
-          <h1 className={"hero-title"}>{selectedMovie.title}</h1>
-          { selectedMovie.overview ? <p className={"hero-overview"}>{selectedMovie.overview}</p> : null}
-
+        {selectedMovie.videos && playTrailer ? renderTrailer() : null}
+        {playTrailer ?  <button className={"button close-video"} onClick={() => setPlayTrailer(false)}>Close Trailer</button> : null}
+        <div className="center-max-size" >
+          <div className="poster-content">
+          <button className={"button play-video"} type="button" onClick={() => setPlayTrailer(true)}>Play Trailer</button>
+          <h1>{selectedMovie.title}</h1>
+          <p>{selectedMovie.overview}</p>
+          </div>
         </div>
       </div>
 
-      <div className="container">
+      <div className={"center-max-size container"}>
         {renderMovies()}
       </div>
     </div>
