@@ -21,7 +21,7 @@ const Trailer = ({ selectedMovie }) => {
         containerClassName={'youtube-container amru'}
         opts={{
           width: '100%',
-          height: '100%',
+          height: '500px',
           playerVars: {
             autoplay: 1,
             controls: 0,
@@ -31,6 +31,7 @@ const Trailer = ({ selectedMovie }) => {
             modestbranding: 0,
             rel: 0,
             showinfo: 0,
+            playsinline: 1
           },
         }}
       />

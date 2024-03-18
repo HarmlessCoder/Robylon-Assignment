@@ -144,19 +144,22 @@ function App() {
 
       {/* Movie poster */}
       <div className="poster" style={{ backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),url("${IMAGE_PATH}${selectedMovie.backdrop_path}")` }}>
-        {console.log(selectedMovie)}
+  {console.log(selectedMovie)}
 
-        {/* Render trailer if selectedMovie has videos */}
-        {selectedMovie.videos && playTrailer ? <Trailer selectedMovie={selectedMovie} /> : null}
-        {playTrailer ? <button className={"button close-video"} onClick={() => setPlayTrailer(false)}>Close Trailer</button> : null}
-        <div className="center-max-size" >
-          <div className="poster-content">
-            <button className={"button play-video"} type="button" onClick={() => setPlayTrailer(true)}>Play Trailer</button>
-            <h1>{selectedMovie.title}</h1>
-            <p>{selectedMovie.overview}</p>
-          </div>
-        </div>
+  {/* Render trailer if selectedMovie has videos */}
+  {selectedMovie.videos && playTrailer ? <Trailer selectedMovie={selectedMovie} /> : null}
+  {playTrailer ? <button className={"button close-video"} onClick={() => setPlayTrailer(false)}>Close Trailer</button> : null}
+  {!playTrailer &&
+    <div className="center-max-size">
+      <div className="poster-content">
+        <button className={"button play-video"} type="button" onClick={() => setPlayTrailer(true)}>Play Trailer</button>
+        <h1>{selectedMovie.title}</h1>
+        <p>{selectedMovie.overview}</p>
       </div>
+    </div>
+  }
+</div>
+
 
       {/* Movie card container */}
       <div className={"center-max-size container"}>
