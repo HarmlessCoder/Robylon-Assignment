@@ -2,9 +2,8 @@ import './App.css';
 import { useEffect, useState} from 'react';
 import axios from 'axios';
 import MovieCard from './components/MovieCard';
+import Trailer from './components/Trailer';
 import Youtube from "react-youtube"
-
-// ad2035bd
  
 function App() {
 
@@ -113,39 +112,10 @@ function App() {
     fetchMovies(searchKey)
   }
 
-  const renderTrailer = () => {
-    const trailer = selectedMovie.videos.results.find(vid => vid.name === 'Official Trailer')
-    const key = trailer ? trailer.key : selectedMovie.videos.results[0].key
-
-    return (
-      <Youtube
-        videoId={key}
-        className={"youtube amru"}
-        containerClassName={"youtube-container amru"}
-        opts={{
-          width: "100%",
-          height: "100%",
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            // playsinline:0,
-            cc_load_policy: 0,
-            fs: 0,
-            iv_load_policy: 0,
-            modestbranding: 0,
-            rel: 0,
-            showinfo: 0,
-            
-          }
-        }}
-      />
-    )
-  }
-
   return (
     <div className="App">
       <header className={"center-max-size header"}>
-      <span className={"brand"}>Robylon.ai Movie App</span>
+        <span className={"brand"}>Robylon.ai Movie App</span>
 
         <form className="form" onSubmit={searchMovies}>
           <input className="search" type="text" id="searchInput" placeholder="Search for movies..." onChange={(e)=> setSearchKey(e.target.value)}/>
@@ -171,7 +141,7 @@ function App() {
       <div className="poster" style={{backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),url("${IMAGE_PATH}${selectedMovie.backdrop_path}")`}}>
         {console.log(selectedMovie)}
 
-        {selectedMovie.videos && playTrailer ? renderTrailer() : null}
+        {selectedMovie.videos && playTrailer ? <Trailer selectedMovie={selectedMovie} /> : null}
         {playTrailer ?  <button className={"button close-video"} onClick={() => setPlayTrailer(false)}>Close Trailer</button> : null}
         <div className="center-max-size" >
           <div className="poster-content">
