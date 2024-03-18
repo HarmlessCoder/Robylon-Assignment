@@ -2,6 +2,7 @@ import './App.css';
 import { useEffect, useState} from 'react';
 import axios from 'axios';
 import MovieCard from './components/MovieCard';
+import Youtube from "react-youtube"
 
 // ad2035bd
  
@@ -9,9 +10,11 @@ function App() {
 
   const IMAGE_PATH = "https://image.tmdb.org/t/p/w780"
   const API_URL = "https://api.themoviedb.org/3/"
+
   const [movies, setMovies] = useState([])
   const [searchKey, setSearchKey] = useState("")
-  const [selectedMovie, setSelecetedMovie] = useState({})
+  const [selectedMovie, setSelectedMovie] = useState({})
+  const [playTrailer, setPlayTrailer] = useState(false)
 
   const fetchMovies = async (searchKey) => {
     try {
@@ -24,13 +27,33 @@ function App() {
       });
       // console.log('data', data);
 
-      setSelecetedMovie(results[0])
       setMovies(results)
+      await selectMovie(results[0])
+
     } catch (error) {
       console.error('Error fetching movies:', error);
     }
 
     
+  }
+
+  const fetchMovie = async (id) => {
+    const {data} = await axios.get(`${API_URL}/movie/${id}`, {
+      params: {
+        api_key: process.env.REACT_APP_MOVIE_API_KEY,
+        append_to_response: 'videos'
+      }
+    })
+
+    return data
+  }
+
+  const selectMovie = async (movie) => {
+    setPlayTrailer(false)
+    const data = await fetchMovie(movie.id)
+    console.log('movie data',data);
+    setSelectedMovie(data)
+
   }
 
   useEffect(() => {
@@ -43,6 +66,7 @@ function App() {
       <MovieCard
         key={movie.id}
         movie={movie}
+        selectMovie={selectMovie}
       />
     ))
   )
@@ -50,6 +74,26 @@ function App() {
   const searchMovies = (e) => {
     e.preventDefault()
     fetchMovies(searchKey)
+  }
+
+  const renderTrailer = () => {
+    const trailer = selectedMovie.videos.results.find(vid => vid.name === 'Official Trailer')
+    const key = trailer ? trailer.key : selectedMovie.videos.results[0].key
+
+    return (
+      <Youtube
+        videoId={key}
+        containerClassName={"youtube-container"}
+        opts={{
+          width: "100%",
+          height: "100%",
+          playerVars: {
+            autoplay: 1,
+            controls: 0
+          }
+        }}
+      />
+    )
   }
 
   return (
@@ -68,9 +112,15 @@ function App() {
       </header>
 
       <div className="hero" style={{backgroundImage: `url("${IMAGE_PATH}${selectedMovie.backdrop_path}")`}}>
+        {console.log(selectedMovie)}
         <div className="hero-content max-center" >
-          {console.log(selectedMovie)}
-          <button className={"button"}>Play Trailer</button>
+
+          {playTrailer ?  <button className={"button button-close"} onClick={() => setPlayTrailer(false)}>Close</button> : null}
+            
+          {selectedMovie.videos && playTrailer ? renderTrailer() : null}
+
+
+          <button className={"button"} onClick={() => setPlayTrailer(true)}>Play Trailer</button>
           <h1 className={"hero-title"}>{selectedMovie.title}</h1>
           { selectedMovie.overview ? <p className={"hero-overview"}>{selectedMovie.overview}</p> : null}
 
