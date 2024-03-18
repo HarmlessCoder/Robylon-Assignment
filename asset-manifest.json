@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Robylon-Assignment/static/css/main.15628f69.css",
+    "main.js": "/Robylon-Assignment/static/js/main.9865dea4.js",
+    "index.html": "/Robylon-Assignment/index.html",
+    "main.15628f69.css.map": "/Robylon-Assignment/static/css/main.15628f69.css.map",
+    "main.9865dea4.js.map": "/Robylon-Assignment/static/js/main.9865dea4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.15628f69.css",
+    "static/js/main.9865dea4.js"
+  ]
+}
