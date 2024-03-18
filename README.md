@@ -34,6 +34,10 @@ This web application allows users to search for movies, view movie details, and 
 - Enter a movie title in the search box and press Enter or click the search button.
 - Click on a movie card to view its details and watch the trailer.
 
+## Deployment
+
+The project is deployed and accessible at the given [link](https://harmlesscoder.github.io/Robylon-Assignment/).
+
 ## Note
 
 - The app uses The Movie Database (TMDb) API to fetch movie data. You need to obtain an API key from TMDb and set it in the `.env` file as mentioned above.
