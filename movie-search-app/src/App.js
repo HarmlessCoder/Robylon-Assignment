@@ -51,7 +51,8 @@ function App() {
   return (
     <div className="App">
      
-      <header>
+      <header className={"header"}>
+        <div className='header-content'>
 
         <h1>Movie App</h1>
 
@@ -59,6 +60,7 @@ function App() {
           <input type="text" onChange={(e)=> setSearchKey(e.target.value)}/>
           <button type="submit">Search</button>
         </form>
+        </div>
       </header>
       <div className="container">
         {renderMovies()}
