@@ -45,3 +45,29 @@ body{
   align-items: center;
 
 }
+
+.hero{
+  min-height: 500px;
+  background-position: top center;
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-content{
+  max-width: 70%;
+  padding-bottom: 60px;
+}
+
+.hero-title{
+  font-size: 72px;
+  margin: 0;
+}
+
+.button{
+  background-color: #0f1014;
+  color: white;
+  border: 1px solid white;
+  outline: none;
+  padding: 10px 15px;
+}
