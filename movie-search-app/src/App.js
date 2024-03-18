@@ -15,6 +15,8 @@ function App() {
   const [searchKey, setSearchKey] = useState("")
   const [selectedMovie, setSelectedMovie] = useState({})
   const [playTrailer, setPlayTrailer] = useState(false)
+  const [isCtrlPressed, setIsCtrlPressed] = useState(false);
+
 
   const fetchMovies = async (searchKey) => {
     try {
@@ -60,6 +62,37 @@ function App() {
     fetchMovies()
 
   },[])
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'k' && event.ctrlKey) {
+        event.preventDefault();
+        setIsCtrlPressed(true);
+      }
+    };
+  
+    const handleKeyUp = (event) => {
+      if (event.key === 'Control') {
+        setIsCtrlPressed(false);
+      }
+    };
+  
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+  
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isCtrlPressed) {
+      document.getElementById('searchInput').focus();
+    }
+  }, [isCtrlPressed]);
+  
+  
   
   const renderMovies = () => (
     movies.map(movie=>(
@@ -105,7 +138,7 @@ function App() {
         <h1>Movie App</h1>
 
         <form onSubmit={searchMovies}>
-          <input type="text" onChange={(e)=> setSearchKey(e.target.value)}/>
+          <input type="text" id="searchInput" placeholder="Search for movies..." onChange={(e)=> setSearchKey(e.target.value)}/>
           <button type="submit">Search</button>
         </form>
         </div>
